@@ -38,7 +38,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 
 // Редактирование колонок выбранной таблицы
-if($_POST['change']){
+if(isset($_POST['change'])){
 	
 	$table_id = trim(addslashes($_POST['table']));
 	$field_edited = trim(addslashes($_POST['field']));
@@ -58,7 +58,7 @@ $tables= [];
 	$tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Описание выбранной таблицы	
-if($_GET['table']){
+if(isset($_GET['table'])){
 $table = trim(addslashes($_GET['table']));	
 $stmt = $pdo->prepare("DESCRIBE {$table}");
 $stmt->execute();
@@ -67,7 +67,7 @@ $table_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 // Удаление колонок
-if($_GET['action']=='delete'){
+if(isset($_GET['action']) AND $_GET['action'] =='delete'){
 	
 $field = trim(addslashes($_GET['field']));
 $stmt = $pdo->prepare("ALTER TABLE {$table} DROP COLUMN {$field}");
@@ -75,7 +75,7 @@ $stmt->execute();
 header('Location: myadmin.php?table='.$table);
 }
 
-if($_GET['action']=='edit'){
+if(isset($_GET['action']) AND $_GET['action'] =='edit'){
 	$field_id = trim(addslashes($_GET['field']));
 	foreach($table_info as $field){
 		if($field['Field']== $field_id ){
@@ -108,8 +108,7 @@ if($_GET['action']=='edit'){
     </style>
   </head>
   <body>
- 
-<div>
+ <div>
 <div style="width: 50%; margin: auto;">
     <h2>Таблицы базы данных</h2>
 
@@ -141,12 +140,10 @@ if($_GET['action']=='edit'){
 		<?php endforeach; ?>
 		
 </table>
-<?= $view_form; ?>
+<?= @$view_form; ?>
 </div>
 <?php endif; ?>	
 </div>
 </div>	
-
-
-  </body>
+</body>
 </html>
