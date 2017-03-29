@@ -66,7 +66,7 @@ $table_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-// Удаление колонок
+// Удаление колонки
 if(isset($_GET['action']) AND $_GET['action'] =='delete'){
 	
 $field = trim(addslashes($_GET['field']));
@@ -74,7 +74,7 @@ $stmt = $pdo->prepare("ALTER TABLE {$table} DROP COLUMN {$field}");
 $stmt->execute();
 header('Location: myadmin.php?table='.$table);
 }
-
+// Выборка колонки для редактирования
 if(isset($_GET['action']) AND $_GET['action'] =='edit'){
 	$field_id = trim(addslashes($_GET['field']));
 	foreach($table_info as $field){
